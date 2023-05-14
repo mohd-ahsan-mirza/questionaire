@@ -33,6 +33,7 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(-1);
   const [currentAnswer, setAnswer] = useState('');
+  const [showFinalPage, shouldShowFinalPage] = useState(false)
 
   const handleOptionChange = (optionIndex: number) => {
     setSelectedOption(optionIndex);
@@ -50,8 +51,7 @@ function App() {
       } else {
         setSelectedOption(-1);
         if (currentQuestion === allQuestions.length - 1) {
-          alert('You are done!')
-          useState(false)
+          shouldShowFinalPage(true)
         } else {
           setCurrentQuestion(currentQuestion + 1);
         }
@@ -62,8 +62,7 @@ function App() {
         alert('Please write something') 
       } else {
         if (currentQuestion === allQuestions.length - 1) {
-          alert('You are done!')
-          useState(false)
+          shouldShowFinalPage(true)
         } else {
           setAnswer('')
           setCurrentQuestion(currentQuestion + 1);
@@ -112,10 +111,18 @@ function App() {
     );
   };
 
+  const renderThankYouPage = () => {
+    return (
+      <div>
+        <p>Thank you for your participation!</p>
+      </div>
+    );
+  };
+
   return (
     <div className="App">
       <h1>Questionnaire</h1>
-      {renderQuestion()}
+      {showFinalPage ? renderThankYouPage() : renderQuestion()}
     </div>
   );
 }
