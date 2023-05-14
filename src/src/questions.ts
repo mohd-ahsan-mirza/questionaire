@@ -1,7 +1,6 @@
 interface Question {
     id: number;
     text: string;
-    
 }
 
 export interface OptionsQuestion extends Question{
@@ -12,5 +11,10 @@ export interface OptionsQuestion extends Question{
 
 export interface TextQuestion extends Question{
     type: 'text';
+    answer: string;
+}
+
+export interface SelectQuestion extends Question{
+    type: 'number';
     answer: string;
 }

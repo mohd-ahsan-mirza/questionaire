@@ -6,14 +6,14 @@ const optionsQuestions: OptionsQuestion[] = [
     id: 1,
     text: 'Your first car make?',
     options: ['honda', 'toyota', 'other'],
-    answer: 1,
+    answer: -1,
     type: 'radio'
   },
   {
     id: 2,
     text: 'Favourite color?',
     options: ['red', 'blue', 'other'],
-    answer: 0,
+    answer: -1,
     type: 'radio'
   },
 ];
@@ -22,6 +22,12 @@ const textQuestions: TextQuestion[] = [
   {
     id: 3,
     text: 'What do you think Abraham Lincoln?',
+    answer: '',
+    type: 'text',
+  },
+  {
+    id: 4,
+    text: 'Give a brief description of your dream destination?',
     answer: '',
     type: 'text',
   },
@@ -61,10 +67,10 @@ function App() {
       if (currentAnswer == '') {
         alert('Please write something') 
       } else {
+        setAnswer('')
         if (currentQuestion === allQuestions.length - 1) {
           shouldShowFinalPage(true)
         } else {
-          setAnswer('')
           setCurrentQuestion(currentQuestion + 1);
         }
       }
@@ -81,6 +87,7 @@ function App() {
               <input
                 type="text"
                 className="form-control"
+                value={currentAnswer}
                 id={`currentAnswer-${question.id}`}
                 onChange={(event) =>
                   handleAnswerChange(event.target.value)
@@ -103,9 +110,9 @@ function App() {
                 </label>
               </div>
           )))}
-            <button className="btn btn-primary mt-3" onClick={handleNextClick}>
-              Next
-            </button>
+          <button className="btn btn-primary mt-3" onClick={handleNextClick}>
+            Next
+          </button>
         </div>
       </div>
     );
