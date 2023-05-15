@@ -80,6 +80,12 @@ function App() {
     setNumber(value)
   }
 
+  const handleBackClick = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  }
+
   const handleNextClick = () => {
     const question = allQuestions[currentQuestion];
     if (question.type == 'radio') {
@@ -193,11 +199,13 @@ function App() {
                 ))}
               </select>
           )}
-          <button className="btn btn-primary mt-3" onClick={handleNextClick}>
+          <div className='col-xs-3'><button className="btn btn-primary mt-3 btn-block" onClick={handleNextClick}>
             Next
-          </button>
+          </button></div>
+          <div className='col-xs-3'></div><button className="btn btn-primary mt-3 btn-block" onClick={handleBackClick}>
+            Back
+          </button></div>
         </div>
-      </div>
     );
   };
 
