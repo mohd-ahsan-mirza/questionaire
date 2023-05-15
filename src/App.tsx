@@ -59,6 +59,7 @@ const numberQuestion: NumberQuestion[] = [
 ]
 
 const allQuestions: (OptionsQuestion|TextQuestion|NumberQuestion|SelectQuestion)[] = [...optionsQuestions, ...numberQuestion, ...textQuestions, ...selectQuestion];
+let storedAnswers: Map<number, OptionsQuestion|TextQuestion|NumberQuestion|SelectQuestion> = new Map()
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -70,19 +71,40 @@ function App() {
 
   const [showFinalPage, shouldShowFinalPage] = useState(false)
 
-  const handleOptionChange = (optionIndex: number) => {
+  allQuestions.map(element => {
+    storedAnswers.set(element.id, element)
+  })
+
+  const getStoredAnswer = (id: number) => {
+    console.log(storedAnswers.get(id))
+    return storedAnswers.get(id)?.answer
+  }
+
+  const updateStoredAnswer = (id: number, value: string | number) => {
+    const element = storedAnswers.get(id)
+    if (element) {
+      element.answer = value
+      storedAnswers.set(element.id, element)
+    }
+  }
+
+  const handleOptionChange = (id: number, optionIndex: number) => {
+    updateStoredAnswer(id, optionIndex)
     setSelectedOption(optionIndex);
   };
 
-  const handleAnswerChange = (text: string) => {
+  const handleAnswerChange = (id: number, text: string) => {
+    updateStoredAnswer(id, text)
     setAnswer(text)
   };
 
-  const handleSelectChange = (value: string) => {
+  const handleSelectChange = (id: number, value: string) => {
+    updateStoredAnswer(id, value)
     setSelectedValue(value)
   }
 
-  const handleNumberChange = (value: string) => {
+  const handleNumberChange = (id: number, value: string) => {
+    updateStoredAnswer(id, value)
     setNumber(value)
   }
 
@@ -157,7 +179,7 @@ function App() {
                 value={currentAnswer}
                 id={`text-${question.id}`}
                 onChange={(event) =>
-                  handleAnswerChange(event.target.value)
+                  handleAnswerChange(question.id, event.target.value)
                 }
               />
           )}
@@ -168,7 +190,7 @@ function App() {
                 value={selectedNumber}
                 id={`text-${question.id}`}
                 onChange={(event) =>
-                  handleNumberChange(event.target.value)
+                  handleNumberChange(question.id, event.target.value)
                 }
               />
           )}
@@ -181,7 +203,7 @@ function App() {
                   name="option"
                   value={option}
                   checked={selectedOption === index}
-                  onChange={() => handleOptionChange(index)}
+                  onChange={() => handleOptionChange(question.id, index)}
                 />
                 <label className="form-check-label" htmlFor={`option-${index}`}>
                   {option}
@@ -194,7 +216,7 @@ function App() {
                 id={`select-${question.id}`}
                 value={selectedValue}
                 onChange={(event) =>
-                  handleSelectChange(event.target.value)
+                  handleSelectChange(question.id, event.target.value)
                 }
               >
                 <option value="">Select an option</option>
