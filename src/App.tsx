@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { OptionsQuestion, SelectQuestion, TextQuestion } from './src/questions'
+import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion } from './src/questions'
 
 const optionsQuestions: OptionsQuestion[] = [
   {
@@ -43,13 +43,25 @@ const selectQuestion: SelectQuestion[] = [
   }
 ]
 
-const allQuestions: (OptionsQuestion|TextQuestion|SelectQuestion)[] = [...optionsQuestions, ...textQuestions, ...selectQuestion];
+const numberQuestion: NumberQuestion[] = [
+  {
+    id: 6,
+    text: 'How old are you?',
+    answer: '',
+    type: 'number'
+  }
+]
+
+const allQuestions: (OptionsQuestion|TextQuestion|NumberQuestion|SelectQuestion)[] = [...optionsQuestions, ...numberQuestion, ...textQuestions, ...selectQuestion];
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
   const [selectedOption, setSelectedOption] = useState(-1);
   const [currentAnswer, setAnswer] = useState('');
   const [selectedValue, setSelectedValue] = useState('')
+  const [selectedNumber, setNumber] = useState('')
+
   const [showFinalPage, shouldShowFinalPage] = useState(false)
 
   const handleOptionChange = (optionIndex: number) => {
@@ -62,6 +74,10 @@ function App() {
 
   const handleSelectChange = (value: string) => {
     setSelectedValue(value)
+  }
+
+  const handleNumberChange = (value: string) => {
+    setNumber(value)
   }
 
   const handleNextClick = () => {
@@ -102,6 +118,18 @@ function App() {
         }
       }
     }
+    if(question.type == 'number') {
+      if (selectedNumber == '') {
+        alert('Please select a number')
+      } else {
+        setNumber('')
+        if (currentQuestion === allQuestions.length - 1) {
+          shouldShowFinalPage(true)
+        } else {
+          setCurrentQuestion(currentQuestion + 1);
+        }
+      }
+    }
   };
 
   const renderQuestion = () => {
@@ -118,6 +146,17 @@ function App() {
                 id={`text-${question.id}`}
                 onChange={(event) =>
                   handleAnswerChange(event.target.value)
+                }
+              />
+          )}
+           {question.type === 'number' && (
+              <input
+                type="number"
+                className="form-control"
+                value={selectedNumber}
+                id={`text-${question.id}`}
+                onChange={(event) =>
+                  handleNumberChange(event.target.value)
                 }
               />
           )}

@@ -3,19 +3,24 @@ interface Question {
     text: string;
 }
 
-export interface OptionsQuestion extends Question{
+export interface OptionsQuestion extends Question {
     options: string[];
     type: 'radio';
     answer: number;
 }
 
-export interface TextQuestion extends Question{
+export interface TextQuestion extends Question {
     type: 'text';
     answer: string;
 }
 
-export interface SelectQuestion extends Question{
+export interface SelectQuestion extends Question {
     type: 'select';
     options: string[];
+    answer: string;
+}
+
+export interface NumberQuestion extends Question {
+    type: 'number';
     answer: string;
 }
