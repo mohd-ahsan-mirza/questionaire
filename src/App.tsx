@@ -7,14 +7,16 @@ const optionsQuestions: OptionsQuestion[] = [
     text: 'Your first car make?',
     options: ['honda', 'toyota', 'other'],
     answer: -1,
-    type: 'radio'
+    type: 'radio',
+    required: true
   },
   {
     id: 2,
     text: 'Favourite color?',
     options: ['red', 'blue', 'other'],
     answer: -1,
-    type: 'radio'
+    type: 'radio',
+    required: false,
   },
 ];
 
@@ -24,12 +26,14 @@ const textQuestions: TextQuestion[] = [
     text: 'What do you think Abraham Lincoln?',
     answer: '',
     type: 'text',
+    required: true,
   },
   {
     id: 4,
     text: 'Give a brief description of your dream destination?',
     answer: '',
     type: 'text',
+    required: false,
   },
 ]
 
@@ -39,7 +43,8 @@ const selectQuestion: SelectQuestion[] = [
     text: 'What is your favourite streaming service?',
     answer:'',
     type: 'select',
-    options: ['netflix', 'youtube', 'Crave', 'Disney+']
+    options: ['netflix', 'youtube', 'Crave', 'Disney+'],
+    required: false,
   }
 ]
 
@@ -48,7 +53,8 @@ const numberQuestion: NumberQuestion[] = [
     id: 6,
     text: 'How old are you?',
     answer: '',
-    type: 'number'
+    type: 'number',
+    required: false,
   }
 ]
 
@@ -89,7 +95,7 @@ function App() {
   const handleNextClick = () => {
     const question = allQuestions[currentQuestion];
     if (question.type == 'radio') {
-      if (selectedOption === -1) {
+      if (selectedOption === -1 && question.required) {
         alert('Please select an option');
       } else {
         setSelectedOption(-1);
@@ -101,7 +107,7 @@ function App() {
       }
     }
     if (question.type == 'text') {
-      if (currentAnswer == '') {
+      if (currentAnswer == '' && question.required) {
         alert('Please write something') 
       } else {
         setAnswer('')
@@ -113,7 +119,7 @@ function App() {
       }
     }
     if(question.type == 'select') {
-      if (selectedValue == '') {
+      if (selectedValue == '' && question.required) {
         alert('Please select something')
       } else {
         setSelectedValue('')
@@ -125,7 +131,7 @@ function App() {
       }
     }
     if(question.type == 'number') {
-      if (selectedNumber == '') {
+      if (selectedNumber == '' && question.required) {
         alert('Please select a number')
       } else {
         setNumber('')

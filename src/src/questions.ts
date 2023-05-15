@@ -1,6 +1,7 @@
 interface Question {
     id: number;
     text: string;
+    required: boolean;
 }
 
 export interface OptionsQuestion extends Question {
