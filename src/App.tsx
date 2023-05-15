@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { OptionsQuestion, TextQuestion } from './src/questions'
+import { OptionsQuestion, SelectQuestion, TextQuestion } from './src/questions'
 
 const optionsQuestions: OptionsQuestion[] = [
   {
@@ -33,12 +33,23 @@ const textQuestions: TextQuestion[] = [
   },
 ]
 
-const allQuestions: (OptionsQuestion|TextQuestion)[] = [...optionsQuestions, ...textQuestions];
+const selectQuestion: SelectQuestion[] = [
+  {
+    id: 5,
+    text: 'What is your favourite streaming service?',
+    answer:'',
+    type: 'select',
+    options: ['netflix', 'youtube', 'Crave', 'Disney+']
+  }
+]
+
+const allQuestions: (OptionsQuestion|TextQuestion|SelectQuestion)[] = [...optionsQuestions, ...textQuestions, ...selectQuestion];
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(-1);
   const [currentAnswer, setAnswer] = useState('');
+  const [selectedValue, setSelectedValue] = useState('')
   const [showFinalPage, shouldShowFinalPage] = useState(false)
 
   const handleOptionChange = (optionIndex: number) => {
@@ -48,6 +59,10 @@ function App() {
   const handleAnswerChange = (text: string) => {
     setAnswer(text)
   };
+
+  const handleSelectChange = (value: string) => {
+    setSelectedValue(value)
+  }
 
   const handleNextClick = () => {
     const question = allQuestions[currentQuestion];
@@ -75,6 +90,18 @@ function App() {
         }
       }
     }
+    if(question.type == 'select') {
+      if (selectedValue == '') {
+        alert('Please select something')
+      } else {
+        setSelectedValue('')
+        if (currentQuestion === allQuestions.length - 1) {
+          shouldShowFinalPage(true)
+        } else {
+          setCurrentQuestion(currentQuestion + 1);
+        }
+      }
+    }
   };
 
   const renderQuestion = () => {
@@ -88,7 +115,7 @@ function App() {
                 type="text"
                 className="form-control"
                 value={currentAnswer}
-                id={`currentAnswer-${question.id}`}
+                id={`text-${question.id}`}
                 onChange={(event) =>
                   handleAnswerChange(event.target.value)
                 }
@@ -99,7 +126,7 @@ function App() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  id={`option-${index}`}
+                  id={`radio-${index}`}
                   name="option"
                   value={option}
                   checked={selectedOption === index}
@@ -110,6 +137,23 @@ function App() {
                 </label>
               </div>
           )))}
+          {question.type === 'select' && (
+              <select
+                className="form-select"
+                id={`select-${question.id}`}
+                value={selectedValue}
+                onChange={(event) =>
+                  handleSelectChange(event.target.value)
+                }
+              >
+                <option value="">Select an option</option>
+                {question.options?.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+          )}
           <button className="btn btn-primary mt-3" onClick={handleNextClick}>
             Next
           </button>

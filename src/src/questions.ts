@@ -15,6 +15,7 @@ export interface TextQuestion extends Question{
 }
 
 export interface SelectQuestion extends Question{
-    type: 'number';
+    type: 'select';
+    options: string[];
     answer: string;
 }
