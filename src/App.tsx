@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion } from './src/questions'
+import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion, AllQuestions } from './src/questions'
 
 const optionsQuestions: OptionsQuestion[] = [
   {
@@ -58,8 +58,8 @@ const numberQuestion: NumberQuestion[] = [
   }
 ]
 
-const allQuestions: (OptionsQuestion|TextQuestion|NumberQuestion|SelectQuestion)[] = [...optionsQuestions, ...numberQuestion, ...textQuestions, ...selectQuestion];
-let storedAnswers: Map<number, OptionsQuestion|TextQuestion|NumberQuestion|SelectQuestion> = new Map()
+const allQuestions: (AllQuestions)[] = [...optionsQuestions, ...numberQuestion, ...textQuestions, ...selectQuestion];
+let storedAnswers: Map<number, AllQuestions> = new Map()
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);

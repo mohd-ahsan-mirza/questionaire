@@ -25,3 +25,5 @@ export interface NumberQuestion extends Question {
     type: 'number';
     answer: string;
 }
+
+export type AllQuestions = OptionsQuestion|TextQuestion|NumberQuestion|SelectQuestion
