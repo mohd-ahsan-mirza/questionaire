@@ -210,6 +210,7 @@ function App() {
       <div className="card d-flex align-items-center justify-content-center">
         <div className="card-body">
           <h2 className="card-title">{question.text}</h2>
+          <div>
           {question.type === 'text' && (
               <input
                 type="text"
@@ -265,13 +266,21 @@ function App() {
                 ))}
               </select>
           )}
-          <div className='col-xs-3'><button className="btn btn-primary mt-3 btn-block" onClick={handleNextClick}>
-            Next
-          </button></div>
-          <div className='col-xs-3'></div><button className="btn btn-primary mt-3 btn-block" onClick={handleBackClick}>
-            Back
-          </button></div>
+          </div>
+          <div className="d-flex align-items-center justify-content-lg-between">
+            <div className='col-xs-3'>
+              <button className="btn btn-primary mt-3 btn-block" onClick={handleBackClick}>
+                Back
+              </button>
+            </div>
+            <div className='col-xs-3'>
+              <button className="btn btn-primary mt-3 btn-block" onClick={handleNextClick}>
+                Next
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     );
   };
 
@@ -285,7 +294,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Questionnaire</h1>
+      <h1 className="d-flex align-items-center justify-content-center">Questionnaire</h1>
       {showFinalPage ? renderThankYouPage() : renderQuestion()}
     </div>
   );
