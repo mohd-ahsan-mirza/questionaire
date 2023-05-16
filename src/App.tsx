@@ -76,7 +76,7 @@ function App() {
   })
 
   const getStoredAnswer = (id: number) => {
-    console.log(storedAnswers.get(id))
+    //console.log(storedAnswers.get(id))
     return storedAnswers.get(id)?.answer
   }
 
@@ -86,6 +86,7 @@ function App() {
       element.answer = value
       storedAnswers.set(element.id, element)
     }
+    //console.log(storedAnswers.get(id))
   }
 
   const handleOptionChange = (id: number, optionIndex: number) => {
@@ -110,6 +111,24 @@ function App() {
 
   const handleBackClick = () => {
     if (currentQuestion > 0) {
+      const question = allQuestions[currentQuestion - 1];
+      const storedAnswer = getStoredAnswer(question.id);
+
+      if (storedAnswer) {
+        if (question.type == 'radio') {
+          setSelectedOption(Number(storedAnswer))
+        }
+        if (question.type == 'text') {
+          setAnswer(storedAnswer.toString())
+        }
+        if (question.type == 'select') {
+          setSelectedValue(storedAnswer.toString())
+        }
+        if (question.type == 'number') {
+          setNumber(storedAnswer.toString())
+        }
+      }
+
       setCurrentQuestion(currentQuestion - 1);
     }
   }
@@ -120,10 +139,14 @@ function App() {
       if (selectedOption === -1 && question.required) {
         alert('Please select an option');
       } else {
-        setSelectedOption(-1);
         if (currentQuestion === allQuestions.length - 1) {
           shouldShowFinalPage(true)
         } else {
+          const question = allQuestions[currentQuestion + 1];
+          const storedAnswer = getStoredAnswer(question.id);
+          if (storedAnswer) {
+            setSelectedOption(Number(storedAnswer));
+          }
           setCurrentQuestion(currentQuestion + 1);
         }
       }
@@ -136,6 +159,11 @@ function App() {
         if (currentQuestion === allQuestions.length - 1) {
           shouldShowFinalPage(true)
         } else {
+          const question = allQuestions[currentQuestion + 1];
+          const storedAnswer = getStoredAnswer(question.id);
+          if (storedAnswer) {
+            setAnswer(storedAnswer.toString())
+          }
           setCurrentQuestion(currentQuestion + 1);
         }
       }
@@ -148,6 +176,11 @@ function App() {
         if (currentQuestion === allQuestions.length - 1) {
           shouldShowFinalPage(true)
         } else {
+          const question = allQuestions[currentQuestion + 1];
+          const storedAnswer = getStoredAnswer(question.id);
+          if (storedAnswer) {
+            setSelectedValue(storedAnswer.toString())
+          }
           setCurrentQuestion(currentQuestion + 1);
         }
       }
@@ -160,6 +193,11 @@ function App() {
         if (currentQuestion === allQuestions.length - 1) {
           shouldShowFinalPage(true)
         } else {
+          const question = allQuestions[currentQuestion + 1];
+          const storedAnswer = getStoredAnswer(question.id);
+          if (storedAnswer) {
+            setNumber(storedAnswer.toString())
+          }
           setCurrentQuestion(currentQuestion + 1);
         }
       }
@@ -201,7 +239,7 @@ function App() {
                   type="radio"
                   id={`radio-${index}`}
                   name="option"
-                  value={option}
+                  value={selectedOption}
                   checked={selectedOption === index}
                   onChange={() => handleOptionChange(question.id, index)}
                 />
