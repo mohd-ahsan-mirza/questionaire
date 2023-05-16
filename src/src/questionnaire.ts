@@ -24,7 +24,7 @@ export class Questionnaire {
     }
 
     getStoredAnswer = (id: number) => {
-        //console.log(storedAnswers.get(id))
+        //console.log(this.storedAnswers.get(id))
         return this.storedAnswers.get(id)?.answer
     }
 
@@ -34,7 +34,7 @@ export class Questionnaire {
           element.answer = value
           this.storedAnswers.set(element.id, element)
         }
-        //console.log(storedAnswers.get(id))
+        //console.log(this.storedAnswers.get(id))
     }
     
     getAllQuestions = () => {
