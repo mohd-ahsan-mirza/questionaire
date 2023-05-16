@@ -207,7 +207,7 @@ function App() {
   const renderQuestion = () => {
     const question = allQuestions[currentQuestion];
     return (
-      <div className="card">
+      <div className="card d-flex align-items-center justify-content-center">
         <div className="card-body">
           <h2 className="card-title">{question.text}</h2>
           {question.type === 'text' && (
