@@ -1,65 +1,7 @@
 import React, { useState } from 'react';
-import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion, AllQuestions } from './src/questions'
+import { Questionnaire } from './src/questionnaire'
 
-const optionsQuestions: OptionsQuestion[] = [
-  {
-    id: 1,
-    text: 'Your first car make?',
-    options: ['honda', 'toyota', 'other'],
-    answer: -1,
-    type: 'radio',
-    required: true
-  },
-  {
-    id: 2,
-    text: 'Favourite color?',
-    options: ['red', 'blue', 'other'],
-    answer: -1,
-    type: 'radio',
-    required: false,
-  },
-];
-
-const textQuestions: TextQuestion[] = [
-  {
-    id: 3,
-    text: 'What do you think Abraham Lincoln?',
-    answer: '',
-    type: 'text',
-    required: true,
-  },
-  {
-    id: 4,
-    text: 'Give a brief description of your dream destination?',
-    answer: '',
-    type: 'text',
-    required: false,
-  },
-]
-
-const selectQuestion: SelectQuestion[] = [
-  {
-    id: 5,
-    text: 'What is your favourite streaming service?',
-    answer:'',
-    type: 'select',
-    options: ['netflix', 'youtube', 'Crave', 'Disney+'],
-    required: false,
-  }
-]
-
-const numberQuestion: NumberQuestion[] = [
-  {
-    id: 6,
-    text: 'How old are you?',
-    answer: '',
-    type: 'number',
-    required: false,
-  }
-]
-
-const allQuestions: (AllQuestions)[] = [...optionsQuestions, ...numberQuestion, ...textQuestions, ...selectQuestion];
-let storedAnswers: Map<number, AllQuestions> = new Map()
+const questionnaire = new Questionnaire('testFile')
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -71,48 +13,30 @@ function App() {
 
   const [showFinalPage, shouldShowFinalPage] = useState(false)
 
-  allQuestions.map(element => {
-    storedAnswers.set(element.id, element)
-  })
-
-  const getStoredAnswer = (id: number) => {
-    //console.log(storedAnswers.get(id))
-    return storedAnswers.get(id)?.answer
-  }
-
-  const updateStoredAnswer = (id: number, value: string | number) => {
-    const element = storedAnswers.get(id)
-    if (element) {
-      element.answer = value
-      storedAnswers.set(element.id, element)
-    }
-    //console.log(storedAnswers.get(id))
-  }
-
   const handleOptionChange = (id: number, optionIndex: number) => {
-    updateStoredAnswer(id, optionIndex)
+    questionnaire.updateStoredAnswer(id, optionIndex)
     setSelectedOption(optionIndex);
   };
 
   const handleAnswerChange = (id: number, text: string) => {
-    updateStoredAnswer(id, text)
+    questionnaire.updateStoredAnswer(id, text)
     setAnswer(text)
   };
 
   const handleSelectChange = (id: number, value: string) => {
-    updateStoredAnswer(id, value)
+    questionnaire.updateStoredAnswer(id, value)
     setSelectedValue(value)
   }
 
   const handleNumberChange = (id: number, value: string) => {
-    updateStoredAnswer(id, value)
+    questionnaire.updateStoredAnswer(id, value)
     setNumber(value)
   }
 
   const handleBackClick = () => {
     if (currentQuestion > 0) {
-      const question = allQuestions[currentQuestion - 1];
-      const storedAnswer = getStoredAnswer(question.id);
+      const question = questionnaire.getAllQuestions()[currentQuestion - 1];
+      const storedAnswer = questionnaire.getStoredAnswer(question.id);
 
       if (storedAnswer !== undefined) {
         if (question.type == 'radio') {
@@ -134,16 +58,16 @@ function App() {
   }
 
   const handleNextClick = () => {
-    const question = allQuestions[currentQuestion];
+    const question = questionnaire.getAllQuestions()[currentQuestion];
     if (question.type == 'radio') {
       if (selectedOption === -1 && question.required) {
         alert('Please select an option');
       } else {
-        if (currentQuestion === allQuestions.length - 1) {
+        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
           shouldShowFinalPage(true)
         } else {
-          const question = allQuestions[currentQuestion + 1];
-          const storedAnswer = getStoredAnswer(question.id);
+          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+          const storedAnswer = questionnaire.getStoredAnswer(question.id);
           if (storedAnswer !== undefined) {
             setSelectedOption(Number(storedAnswer));
           }
@@ -156,11 +80,11 @@ function App() {
         alert('Please write something') 
       } else {
         setAnswer('')
-        if (currentQuestion === allQuestions.length - 1) {
+        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
           shouldShowFinalPage(true)
         } else {
-          const question = allQuestions[currentQuestion + 1];
-          const storedAnswer = getStoredAnswer(question.id);
+          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+          const storedAnswer = questionnaire.getStoredAnswer(question.id);
           if (storedAnswer !== undefined) {
             setAnswer(storedAnswer.toString())
           }
@@ -173,11 +97,11 @@ function App() {
         alert('Please select something')
       } else {
         setSelectedValue('')
-        if (currentQuestion === allQuestions.length - 1) {
+        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
           shouldShowFinalPage(true)
         } else {
-          const question = allQuestions[currentQuestion + 1];
-          const storedAnswer = getStoredAnswer(question.id);
+          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+          const storedAnswer = questionnaire.getStoredAnswer(question.id);
           if (storedAnswer !== undefined) {
             setSelectedValue(storedAnswer.toString())
           }
@@ -186,15 +110,16 @@ function App() {
       }
     }
     if(question.type == 'number') {
-      if (selectedNumber == '' && question.required) {
-        alert('Please select a number')
+      if ((selectedNumber == '' && question.required) || (selectedNumber !== '' && !Number.isNaN(selectedNumber) && Number(selectedNumber) <= 0)) {
+        setNumber('')
+        alert('Please select a positive number')
       } else {
         setNumber('')
-        if (currentQuestion === allQuestions.length - 1) {
+        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
           shouldShowFinalPage(true)
         } else {
-          const question = allQuestions[currentQuestion + 1];
-          const storedAnswer = getStoredAnswer(question.id);
+          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+          const storedAnswer =  questionnaire.getStoredAnswer(question.id);
           if (storedAnswer !== undefined) {
             setNumber(storedAnswer.toString())
           }
@@ -205,7 +130,7 @@ function App() {
   };
 
   const renderQuestion = () => {
-    const question = allQuestions[currentQuestion];
+    const question = questionnaire.getAllQuestions()[currentQuestion];
     return (
       <div className="card d-flex align-items-center justify-content-center">
         <div className="card-body">
@@ -226,6 +151,7 @@ function App() {
               <input
                 type="number"
                 className="form-control"
+                min={question.minimum}
                 value={selectedNumber}
                 id={`text-${question.id}`}
                 onChange={(event) =>
