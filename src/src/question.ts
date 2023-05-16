@@ -23,6 +23,7 @@ export interface SelectQuestion extends Question {
 
 export interface NumberQuestion extends Question {
     type: 'number';
+    minimum: number,
     answer: string;
 }
 
