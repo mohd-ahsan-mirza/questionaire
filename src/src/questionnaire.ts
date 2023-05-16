@@ -1,6 +1,6 @@
 import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion, AllQuestions } from './question'
 
-export class Questionnaire {
+class Questionnaire {
     fileName: string;
     optionsQuestions: OptionsQuestion[];
     textQuestions: TextQuestion[];
@@ -117,3 +117,5 @@ export class Questionnaire {
         ]
     }
 }
+
+export const questionnaire = new Questionnaire('testFile')

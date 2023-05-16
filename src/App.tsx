@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { Questionnaire } from './src/questionnaire'
+import { questionnaire } from './src/questionnaire'
 
-const questionnaire = new Questionnaire('testFile')
+/*
+  TODO:
+    - Finish modularization
+    - Get questions from JSON object
+    - Unit tests
+    - Make mock API call
+*/
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
