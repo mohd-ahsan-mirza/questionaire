@@ -114,7 +114,7 @@ function App() {
       const question = allQuestions[currentQuestion - 1];
       const storedAnswer = getStoredAnswer(question.id);
 
-      if (storedAnswer) {
+      if (storedAnswer !== undefined) {
         if (question.type == 'radio') {
           setSelectedOption(Number(storedAnswer))
         }
@@ -144,7 +144,7 @@ function App() {
         } else {
           const question = allQuestions[currentQuestion + 1];
           const storedAnswer = getStoredAnswer(question.id);
-          if (storedAnswer) {
+          if (storedAnswer !== undefined) {
             setSelectedOption(Number(storedAnswer));
           }
           setCurrentQuestion(currentQuestion + 1);
@@ -161,7 +161,7 @@ function App() {
         } else {
           const question = allQuestions[currentQuestion + 1];
           const storedAnswer = getStoredAnswer(question.id);
-          if (storedAnswer) {
+          if (storedAnswer !== undefined) {
             setAnswer(storedAnswer.toString())
           }
           setCurrentQuestion(currentQuestion + 1);
@@ -178,7 +178,7 @@ function App() {
         } else {
           const question = allQuestions[currentQuestion + 1];
           const storedAnswer = getStoredAnswer(question.id);
-          if (storedAnswer) {
+          if (storedAnswer !== undefined) {
             setSelectedValue(storedAnswer.toString())
           }
           setCurrentQuestion(currentQuestion + 1);
@@ -195,7 +195,7 @@ function App() {
         } else {
           const question = allQuestions[currentQuestion + 1];
           const storedAnswer = getStoredAnswer(question.id);
-          if (storedAnswer) {
+          if (storedAnswer !== undefined) {
             setNumber(storedAnswer.toString())
           }
           setCurrentQuestion(currentQuestion + 1);
