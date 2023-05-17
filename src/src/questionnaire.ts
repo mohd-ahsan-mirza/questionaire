@@ -1,5 +1,7 @@
 import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion, AllQuestions } from './question'
 
+const HTTP_SERVER='http://localhost:8080/'
+
 class Questionnaire {
     fileName: string;
     optionsQuestions: OptionsQuestion[];
@@ -39,6 +41,28 @@ class Questionnaire {
     
     getAllQuestions = () => {
         return this.allQuestions
+    }
+
+    async sendResponses(): Promise<void> {
+        try {
+          const response = await fetch(HTTP_SERVER, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.storedAnswers),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to create post');
+          }
+      
+          const data = await response.json();
+          console.log('API REQUEST SUCCESSFUL')
+        } catch (error) {
+          console.error(error);
+          //throw error;
+        }
     }
 
     getTestData() {
