@@ -64,21 +64,21 @@ function App() {
   }
 
   const handleNextClick = () => {
+    if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
+      shouldShowFinalPage(true)
+      return
+    }
     const question = questionnaire.getAllQuestions()[currentQuestion];
     if (question.type == 'radio') {
       if (selectedOption === -1 && question.required) {
         alert('Please select an option');
       } else {
-        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
-          shouldShowFinalPage(true)
-        } else {
-          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-          const storedAnswer = questionnaire.getStoredAnswer(question.id);
-          if (storedAnswer !== undefined) {
-            setSelectedOption(Number(storedAnswer));
-          }
-          setCurrentQuestion(currentQuestion + 1);
+        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+        const storedAnswer = questionnaire.getStoredAnswer(question.id);
+        if (storedAnswer !== undefined) {
+          setSelectedOption(Number(storedAnswer));
         }
+        setCurrentQuestion(currentQuestion + 1);
       }
     }
     if (question.type == 'text') {
@@ -86,16 +86,13 @@ function App() {
         alert('Please write something') 
       } else {
         setAnswer('')
-        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
-          shouldShowFinalPage(true)
-        } else {
-          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-          const storedAnswer = questionnaire.getStoredAnswer(question.id);
-          if (storedAnswer !== undefined) {
-            setAnswer(storedAnswer.toString())
-          }
-          setCurrentQuestion(currentQuestion + 1);
+
+        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+        const storedAnswer = questionnaire.getStoredAnswer(question.id);
+        if (storedAnswer !== undefined) {
+          setAnswer(storedAnswer.toString())
         }
+        setCurrentQuestion(currentQuestion + 1);
       }
     }
     if(question.type == 'select') {
@@ -103,16 +100,13 @@ function App() {
         alert('Please select something')
       } else {
         setSelectedValue('')
-        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
-          shouldShowFinalPage(true)
-        } else {
-          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-          const storedAnswer = questionnaire.getStoredAnswer(question.id);
-          if (storedAnswer !== undefined) {
-            setSelectedValue(storedAnswer.toString())
-          }
-          setCurrentQuestion(currentQuestion + 1);
+
+        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+        const storedAnswer = questionnaire.getStoredAnswer(question.id);
+        if (storedAnswer !== undefined) {
+          setSelectedValue(storedAnswer.toString())
         }
+        setCurrentQuestion(currentQuestion + 1);
       }
     }
     if(question.type == 'number') {
@@ -121,16 +115,12 @@ function App() {
         alert('Please select a positive number')
       } else {
         setNumber('')
-        if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
-          shouldShowFinalPage(true)
-        } else {
-          const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-          const storedAnswer =  questionnaire.getStoredAnswer(question.id);
-          if (storedAnswer !== undefined) {
-            setNumber(storedAnswer.toString())
-          }
-          setCurrentQuestion(currentQuestion + 1);
+        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
+        const storedAnswer =  questionnaire.getStoredAnswer(question.id);
+        if (storedAnswer !== undefined) {
+          setNumber(storedAnswer.toString())
         }
+        setCurrentQuestion(currentQuestion + 1);
       }
     }
   };
