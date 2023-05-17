@@ -73,6 +73,7 @@ function App() {
     if (question.type == 'radio') {
       if (selectedOption === -1 && question.required) {
         alert('Please select an option');
+        return
       } else {
         if (nextStoredAnswer !== undefined) {
           setSelectedOption(Number(nextStoredAnswer));
@@ -82,6 +83,7 @@ function App() {
     if (question.type === 'text') {
       if (currentAnswer === '' && question.required) {
         alert('Please write something') 
+        return
       } else {
         setAnswer('')
         if (nextStoredAnswer !== undefined) {
@@ -92,6 +94,7 @@ function App() {
     if(question.type === 'select') {
       if (selectedValue === '' && question.required) {
         alert('Please select something')
+        return
       } else {
         setSelectedValue('')
         if (nextStoredAnswer !== undefined) {
@@ -103,6 +106,7 @@ function App() {
       if ((selectedNumber === '' && question.required) || (selectedNumber !== '' && !Number.isNaN(selectedNumber) && Number(selectedNumber) <= 0)) {
         setNumber('')
         alert('Please select a positive number')
+        return
       } else {
         setNumber('')
         if (nextStoredAnswer !== undefined) {
@@ -195,6 +199,7 @@ function App() {
   };
 
   const renderThankYouPage = () => {
+    questionnaire.sendResponses()
     return (
       <div>
         <p>Thank you for your participation!</p>
