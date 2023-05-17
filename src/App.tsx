@@ -3,7 +3,6 @@ import { questionnaire } from './src/questionnaire'
 
 /*
   TODO:
-    - Finish modularization
     - Get questions from JSON object
     - Unit tests
     - Make mock API call
@@ -68,61 +67,50 @@ function App() {
       shouldShowFinalPage(true)
       return
     }
+    const nextQuestion = questionnaire.getAllQuestions()[currentQuestion + 1];
+    const nextStoredAnswer = questionnaire.getStoredAnswer(nextQuestion.id);
     const question = questionnaire.getAllQuestions()[currentQuestion];
     if (question.type == 'radio') {
       if (selectedOption === -1 && question.required) {
         alert('Please select an option');
       } else {
-        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-        const storedAnswer = questionnaire.getStoredAnswer(question.id);
-        if (storedAnswer !== undefined) {
-          setSelectedOption(Number(storedAnswer));
+        if (nextStoredAnswer !== undefined) {
+          setSelectedOption(Number(nextStoredAnswer));
         }
-        setCurrentQuestion(currentQuestion + 1);
       }
     }
-    if (question.type == 'text') {
-      if (currentAnswer == '' && question.required) {
+    if (question.type === 'text') {
+      if (currentAnswer === '' && question.required) {
         alert('Please write something') 
       } else {
         setAnswer('')
-
-        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-        const storedAnswer = questionnaire.getStoredAnswer(question.id);
-        if (storedAnswer !== undefined) {
-          setAnswer(storedAnswer.toString())
+        if (nextStoredAnswer !== undefined) {
+          setAnswer(nextStoredAnswer.toString())
         }
-        setCurrentQuestion(currentQuestion + 1);
       }
     }
-    if(question.type == 'select') {
-      if (selectedValue == '' && question.required) {
+    if(question.type === 'select') {
+      if (selectedValue === '' && question.required) {
         alert('Please select something')
       } else {
         setSelectedValue('')
-
-        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-        const storedAnswer = questionnaire.getStoredAnswer(question.id);
-        if (storedAnswer !== undefined) {
-          setSelectedValue(storedAnswer.toString())
+        if (nextStoredAnswer !== undefined) {
+          setSelectedValue(nextStoredAnswer.toString())
         }
-        setCurrentQuestion(currentQuestion + 1);
       }
     }
-    if(question.type == 'number') {
-      if ((selectedNumber == '' && question.required) || (selectedNumber !== '' && !Number.isNaN(selectedNumber) && Number(selectedNumber) <= 0)) {
+    if(question.type === 'number') {
+      if ((selectedNumber === '' && question.required) || (selectedNumber !== '' && !Number.isNaN(selectedNumber) && Number(selectedNumber) <= 0)) {
         setNumber('')
         alert('Please select a positive number')
       } else {
         setNumber('')
-        const question = questionnaire.getAllQuestions()[currentQuestion + 1];
-        const storedAnswer =  questionnaire.getStoredAnswer(question.id);
-        if (storedAnswer !== undefined) {
-          setNumber(storedAnswer.toString())
+        if (nextStoredAnswer !== undefined) {
+          setNumber(nextStoredAnswer.toString())
         }
-        setCurrentQuestion(currentQuestion + 1);
       }
     }
+    setCurrentQuestion(currentQuestion + 1);
   };
 
   const renderQuestion = () => {
