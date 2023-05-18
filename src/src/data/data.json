@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "text": "Your first car make?",
+        "options": ["honda", "toyota", "other"],
+        "answer": -1,
+        "type": "radio",
+        "required": true
+    },
+    {
+        "id": 2,
+        "text": "Favourite color?",
+        "options": ["red", "blue", "other"],
+        "answer": -1,
+        "type": "radio",
+        "required": false
+    }
+]

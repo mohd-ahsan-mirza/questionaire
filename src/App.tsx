@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { questionnaire } from './src/questionnaire'
 
 /*
+ - Modularizing render code more
+ - Unit test react code
+ - Resolve CORS issue
+ - Find better way to pass filename
+*/
+
+/*
   TODO:
     - Get questions from JSON object
     - Unit tests
-    - Make mock API call
 */
 
 function App() {

@@ -1,22 +1,27 @@
 import { OptionsQuestion, NumberQuestion, SelectQuestion, TextQuestion, AllQuestions } from './question'
+import fs from 'fs'
+import questionsObj from './data/data.json'
 
 const HTTP_SERVER='http://localhost:8080/'
 
 class Questionnaire {
-    fileName: string;
     optionsQuestions: OptionsQuestion[];
     textQuestions: TextQuestion[];
     selectQuestion: SelectQuestion[];
     numberQuestion: NumberQuestion[];
     allQuestions: (AllQuestions)[];
     storedAnswers: Map<number, AllQuestions>;
-    constructor(filename: string) {
-        this.fileName = filename;
-
-        // Enable to test
-        this.getTestData()
-
-        this.allQuestions = [...this.optionsQuestions, ...this.numberQuestion, ...this.textQuestions, ...this.selectQuestion]
+    constructor(enableTest: boolean = false) {
+        if(enableTest) {
+            this.getTestData()
+            this.allQuestions = [...this.optionsQuestions, ...this.numberQuestion, ...this.textQuestions, ...this.selectQuestion]
+        } else {
+            this.optionsQuestions = []
+            this.textQuestions = []
+            this.selectQuestion = []
+            this.numberQuestion = []
+            this.allQuestions = questionsObj as AllQuestions[];
+        }
 
         this.storedAnswers = new Map()
 
@@ -142,4 +147,4 @@ class Questionnaire {
     }
 }
 
-export const questionnaire = new Questionnaire('testFile')
+export const questionnaire = new Questionnaire()
