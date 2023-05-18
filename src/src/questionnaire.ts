@@ -4,7 +4,7 @@ import questionsObj from './data/data.json'
 
 const HTTP_SERVER='http://localhost:8080/'
 
-class Questionnaire {
+export class Questionnaire {
     optionsQuestions: OptionsQuestion[];
     textQuestions: TextQuestion[];
     selectQuestion: SelectQuestion[];
@@ -146,5 +146,3 @@ class Questionnaire {
         ]
     }
 }
-
-export const questionnaire = new Questionnaire()

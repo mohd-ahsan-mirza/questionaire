@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { questionnaire } from './src/questionnaire'
+import { Questionnaire } from './src/questionnaire'
 
 /*
  - Modularizing render code more
- - Unit test react code
+ - More unit tests for react app
  - Resolve CORS issue
  - Find better way to pass filename
 */
 
-/*
-  TODO:
-    - Get questions from JSON object
-    - Unit tests
-*/
-
 function App() {
+  const questionnaire = new Questionnaire()
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const [selectedOption, setSelectedOption] = useState(-1);
