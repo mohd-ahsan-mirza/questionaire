@@ -59,9 +59,9 @@ export class Questionnaire {
         return this.allQuestions
     }
 
-    async sendResponses(): Promise<boolean> {
+    async sendResponses(): Promise<void> {
         if (!this.validateMandatoryQuestions()) {
-            return false
+            throw new Error('Mandatory questions need to have a response')
         }
         try {
           const response = await fetch(HTTP_SERVER, {
@@ -73,16 +73,14 @@ export class Questionnaire {
           });
       
           if (!response.ok) {
-            throw new Error('Failed to create post');
+            throw new Error('Failed to send response');
           }
       
           const data = await response.json();
           console.log('API REQUEST SUCCESSFUL')
-          return true
         } catch (error) {
           console.error(error);
           //throw error;
-          return true //Should be false. Had to leave it true because mock server is not working as expected
         }
     }
 
