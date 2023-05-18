@@ -69,13 +69,10 @@ function App() {
   }
 
   const handleNextClick = () => {
-    if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
-      shouldShowFinalPage(true)
-      return
-    }
-    const nextQuestion = questionnaire.getAllQuestions()[currentQuestion + 1];
+    const allQuestions = questionnaire.getAllQuestions()
+    const nextQuestion = (allQuestions.length == (currentQuestion + 1)) ? allQuestions[currentQuestion] : allQuestions[currentQuestion + 1];
     const nextStoredAnswer = questionnaire.getStoredAnswer(nextQuestion.id);
-    const question = questionnaire.getAllQuestions()[currentQuestion];
+    const question = allQuestions[currentQuestion];
     if (question.type == 'radio') {
       if (selectedOption === -1 && question.required) {
         alert('Please select an option');
@@ -119,6 +116,10 @@ function App() {
           setNumber(nextStoredAnswer.toString())
         }
       }
+    }
+    if (currentQuestion === questionnaire.getAllQuestions().length - 1) {
+      shouldShowFinalPage(true)
+      return
     }
     setCurrentQuestion(currentQuestion + 1);
   };
