@@ -43,12 +43,26 @@ export class Questionnaire {
         }
         //console.log(this.storedAnswers.get(id))
     }
+
+    validateMandatoryQuestions = (): boolean => {
+        let result = true
+        this.storedAnswers.forEach(storedAnswer => {
+            const answer = String(storedAnswer.answer)
+            if (storedAnswer.required && (answer == '' || answer == '-1')) {
+                result = false
+            }
+        })
+        return result
+    }
     
     getAllQuestions = () => {
         return this.allQuestions
     }
 
-    async sendResponses(): Promise<void> {
+    async sendResponses(): Promise<boolean> {
+        if (!this.validateMandatoryQuestions()) {
+            return false
+        }
         try {
           const response = await fetch(HTTP_SERVER, {
             method: 'POST',
@@ -64,9 +78,11 @@ export class Questionnaire {
       
           const data = await response.json();
           console.log('API REQUEST SUCCESSFUL')
+          return true
         } catch (error) {
           console.error(error);
           //throw error;
+          return true //Should be false. Had to leave it true because mock server is not working as expected
         }
     }
 

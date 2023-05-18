@@ -13,3 +13,8 @@ test("Questionnaire:updateStoredAnswer", () => {
     questionnaire.updateStoredAnswer(questionId, answer)
     expect(questionnaire.getStoredAnswer(questionId)).toEqual(answer);
 });
+
+test("Questionnaire:validateMandatoryQuestions", () => {
+    const questionnaire = new Questionnaire(true)
+    expect(questionnaire.validateMandatoryQuestions()).toEqual(false);
+});
